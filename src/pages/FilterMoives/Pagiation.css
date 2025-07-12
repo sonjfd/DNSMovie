@@ -1,0 +1,26 @@
+.custom-pagination .page-arrow {
+  background-color: #2a2d34;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+ 
+}
+
+.page-status {
+  background-color: #2a2d34;
+}
+
+.page-input {
+  width: 48px;
+  background-color: transparent;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 6px;
+  text-align: center;
+}
+.page-input::-webkit-inner-spin-button {
+  display: none;
+}

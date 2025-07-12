@@ -1,0 +1,192 @@
+.custom-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #121212;
+    padding: 14px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.custom-logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #00ADB5;
+}
+
+.custom-logo-text {
+    margin-left: 8px;
+    color: #00ADB5;
+}
+
+.custom-logo-text span {
+    color: #CCCCCC;
+    font-weight: normal;
+}
+
+.custom-nav a {
+    color: #CCCCCC;
+    text-decoration: none;
+    margin: 0 12px;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.custom-nav a:hover {
+    color: #00ADB5;
+}
+
+.custom-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-actions input {
+    padding: 6px 12px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background-color: #1f1f1f;
+    color: #EEEEEE;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.custom-actions input::placeholder {
+    color: #888;
+}
+
+.custom-actions input:focus {
+    border-color: #00ADB5;
+}
+
+.custom-login-btn {
+    background-color: #00ADB5;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.custom-login-btn:hover {
+    background-color: #01949a;
+}
+
+.user-avatar-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00ADB5;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 46px;
+    right: 0;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 8px;
+    min-width: 140px;
+    z-index: 100;
+}
+
+.user-dropdown a,
+.user-dropdown button {
+    display: block;
+    color: #eee;
+    padding: 6px 10px;
+    text-decoration: none;
+    border: none;
+    background: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+}
+
+.user-dropdown a:hover,
+.user-dropdown button:hover {
+    background-color: #2b2b2b;
+    color: #00ADB5;
+}
+
+.show-dropdown {
+    display: block;
+}
+
+
+
+
+.custom-nav {
+    gap: 20px;                   
+}
+
+.nav-item-dropdown {
+    position: relative;
+}
+
+
+
+.dropdown-grid {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(140px, 1fr)); 
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: max-content;           
+}
+
+.dropdown-grid a {
+    color: #eee;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 4px 2px;
+    transition: color 0.25s;
+}
+
+.dropdown-grid a:hover {
+    color: #00ADB5;
+}
+
+
+.custom-nav a,
+.nav-item-dropdown > button {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 8px;
+  color: #CCCCCC;
+  text-decoration: none;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.custom-nav a:hover,
+.nav-item-dropdown > button:hover {
+  color: #00ADB5;
+}

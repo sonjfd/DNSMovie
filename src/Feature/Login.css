@@ -1,0 +1,144 @@
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #121212;
+    padding: 20px;
+}
+
+.login-box {
+    background-color: #1f1f1f;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    color: #eeeeee;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00ADB5;
+}
+
+.login-box label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 0.95rem;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #2b2b2b;
+    color: #fff;
+    outline: none;
+}
+
+.login-box input:focus {
+    border-color: #00ADB5;
+}
+
+.input-group {
+    position: relative;
+}
+
+.password-input {
+    padding-right: 36px;
+}
+
+.input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+}
+
+.input-icon:hover {
+    color: #00ADB5;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 18px;
+    background-color: #00ADB5;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-box button:hover {
+    background-color: #01949a;
+}
+
+.login-error {
+    background-color: #ff4d4d;
+    padding: 10px;
+    margin-bottom: 12px;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.login-bottom-links {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #ccc;
+}
+
+.login-bottom-links a {
+    color: #00ADB5;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.back-home {
+    display: block;
+    margin-bottom: 10px;
+    color: #888;
+}
+
+.back-home:hover {
+    color: #00ADB5;
+}
+
+.forgot-password-link {
+    text-align: right;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.forgot-password-link a {
+    color: #00ADB5;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+}
+
+
+.login-success {
+    background-color: #1e3a2c; 
+    color: #00e0c6; 
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    border: 1px solid #00e0c6;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}

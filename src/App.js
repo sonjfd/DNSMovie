@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/Home/HomePage';
+import Login from './Feature/Login';
+import Register from './Feature/Register';
+import ForgotPassword from './Feature/ForgotPassword';
+import UserProfile from './pages/Profile/Profile';
+import Admin from './pages/Admin/Admin';
+import ListComment from './pages/Admin/ListComment';
+import ListUser from './pages/Admin/ListUser';
+import MovieByCountry from './pages/MovieByCountry/MovieByCountry';
+import MovieByGenre from './pages/MovieByGenre/MovieByGenre';
+import ListAnime from './pages/Anime/ListAnime';
+import MovieFilterPage from './pages/FilterMoives/MovieFilterPage ';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile/:id" element={<UserProfile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path='/quoc-gia/:slug' element={<MovieByCountry/>}/>
+        <Route path='/the-loai/:slug' element={<MovieByGenre/>}/>
+        <Route path='/danh-sach/hoat-hinh' element={<ListAnime/>} />
+         <Route path="/loc-phim/:type_list" element={<MovieFilterPage />} />
+        <Route path="/admin" element={<Admin />}>
+          <Route index element={<ListUser />} />
+          <Route path="list-comment" element={<ListComment />} />
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 

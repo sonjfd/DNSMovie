@@ -1,0 +1,13 @@
+.footer-link {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: #00ADB5;
+  text-decoration: underline;
+}
+
+.footer i {
+  color: #00ADB5;
+}
