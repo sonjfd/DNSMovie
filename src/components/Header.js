@@ -85,9 +85,12 @@ const Header = () => {
 
   const handleSubmit=(e) => {
           e.preventDefault();
-          if(keyword.toLowerCase().trim()){
-            navigate(`/tim-kiem?query=${encodeURIComponent(keyword.toLowerCase().trim())}`)
+          const query=keyword.toLowerCase().trim();
+          if(!query){
+            alert('Vui lòng nhập từ khoá tìm kiếm!')
+            return;
           }
+          navigate(`/tim-kem/${encodeURIComponent(query)}`)
   }
 
   if (isLoading) return <LoadingPage />;

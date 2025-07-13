@@ -3,7 +3,7 @@ import axios from 'axios';
 import './HomePage.css';
 import Header from './../../components/Header';
 import MovieSwiper from '../../components/MovieCarousel';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoadingPage from './../../components/LoadingPage';
 import Footer from '../../components/Footer';
 
@@ -28,6 +28,7 @@ const HomePage = () => {
   const [anime, setAnime] = useState([])
 
   const [isLoading, setIsLoading] = useState(true);
+   const navigate =useNavigate()
 
   const movie = banners.length > 0 ? banners[currentIndex] : null;
 
@@ -51,14 +52,14 @@ const HomePage = () => {
           'https://phimapi.com/v1/api/danh-sach/phim-bo?country=han-quoc&page=1&limit=30'
         );
         const auMyRes = await axios.get(
-          'https://phimapi.com/v1/api/danh-sach/phim-bo?country=au-my&page=1&limit=30'
+          'https://phimapi.com/v1/api/danh-sach/phim-bo?country=au-my&page=1&limit=24'
         );
         const leRes = await axios.get(
-          'https://phimapi.com/v1/api/danh-sach/phim-le?page=1&limit=30'
+          'https://phimapi.com/v1/api/danh-sach/phim-le?page=1&limit=24'
         );
 
         const vietNamRes = await axios.get(
-          'https://phimapi.com/v1/api/quoc-gia/viet-nam'
+          'https://phimapi.com/v1/api/quoc-gia/viet-nam?page=1&limit=24'
         );
         const animeRes = await axios.get('https://phimapi.com/v1/api/danh-sach/hoat-hinh?page=1')
 
@@ -89,6 +90,11 @@ const HomePage = () => {
       setVisibleInfo(true);
     }, 300);
   };
+
+   const handlePlay = (slug) => {
+    navigate(`/xem-phim/${slug}`)
+    
+   }
 
   if (isLoading) return <LoadingPage />;
 
@@ -130,7 +136,7 @@ const HomePage = () => {
                 </div>
                 <p className="desc">{movie.content}</p>
                 <div className="actions">
-                  <button className="btn play">
+                  <button className="btn play" onClick={()=> handlePlay(movie.slug)}>
                     <i className="fas fa-play"></i>
                   </button>
                   <button className="btn">

@@ -179,3 +179,79 @@
   padding-left: 12px;
   border-left: 4px solid #00adb5;
 }
+
+
+/* === Banner responsive for mobile === */
+@media (max-width: 768px) {
+  .banner {
+    height: 500px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    padding: 20px;
+  }
+
+  .banner-info {
+    padding: 20px 10px;
+    text-align: center;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .banner-info h1.title {
+    font-size: 20px;
+  }
+
+  .banner-info h5.origin {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .banner-info .meta {
+    font-size: 14px;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .banner-info .desc {
+    display: none; /* Ẩn mô tả để đỡ chiếm diện tích */
+  }
+
+  .banner-info .actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .thumb-list {
+    position: static;
+    transform: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 0;
+    background: #111;
+    border-radius: 0;
+  }
+
+  .thumb-list .thumb {
+    width: 60px;
+    height: auto;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .thumb-list .thumb.active {
+    opacity: 1;
+    border: 2px solid #fff;
+  }
+}

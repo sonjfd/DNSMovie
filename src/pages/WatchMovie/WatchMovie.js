@@ -17,8 +17,8 @@ const WatchMovie = () => {
     const [selectedRange, setSelectedRange] = useState([1, 100]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const [user, setUser] = useState(null); // Firebase user
-    const [userProfile, setUserProfile] = useState(null); // from db.json
+    const [user, setUser] = useState(null); 
+    const [userProfile, setUserProfile] = useState(null);
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState('');
     const [editingCommentId, setEditingCommentId] = useState(null);
@@ -131,6 +131,30 @@ const WatchMovie = () => {
         return index >= selectedRange[0] && index <= selectedRange[1];
     });
 
+
+    // Lưu lịch sử xem vào localStorage
+    const saveWatchProgress = (movieId, episode, userId) => {
+        const key = `watch-history-${userId}`;
+        const data = JSON.parse(localStorage.getItem(key)) || [];
+
+        const existing = data.find(item => item.movieId === movieId);
+        if (existing) {
+            existing.episode = episode;
+            existing.time = new Date().toISOString();
+        } else {
+            data.push({ movieId, episode, time: new Date().toISOString() });
+        }
+
+        localStorage.setItem(key, JSON.stringify(data));
+    };
+
+    useEffect(() => {
+        if (movie && currentEpisode && user) {
+            saveWatchProgress(movie._id || movie.slug, currentEpisode.name, user.uid);
+        }
+    }, [currentEpisode, movie, user]);
+
+
     if (isLoading) return <LoadingPage />;
 
     return (
@@ -203,8 +227,8 @@ const WatchMovie = () => {
                     <h5 className="mb-3"><i className="fas fa-comments me-2"></i>Bình luận ({comments.length})</h5>
 
                     {!user || !userProfile ? (
-                        <p className="text-muted mb-4">
-                            Vui lòng <a href="/login" className="text-warning text-decoration-underline">đăng nhập</a> để bình luận.
+                        <p className=" mb-4 " style={{color:'white'}}>
+                            Vui lòng <a href="/login" className="text-warning ">đăng nhập</a> để bình luận.
                         </p>
                     ) : (
                         <form onSubmit={handleSubmitComment} className='mb-4'>
@@ -216,7 +240,7 @@ const WatchMovie = () => {
                                 onChange={(e) => setComment(e.target.value)}
                             ></textarea>
                             <div className='d-flex justify-content-between align-items-center mt-2'>
-                                <small className="text-muted">{comment.length} / 250</small>
+                                <small >{comment.length} / 250</small>
                                 <div>
                                     {editingCommentId && (
                                         <button
@@ -239,13 +263,13 @@ const WatchMovie = () => {
                     )}
 
                     {comments.length === 0 ? (
-                        <p className="text-muted">Chưa có bình luận nào.</p>
+                        <p >Chưa có bình luận nào.</p>
                     ) : (
                         comments.map((cmt) => (
                             <div key={cmt.id} className='d-flex gap-3 mb-4'>
                                 <img src={cmt.user.avatar} alt="avatar" className='rounded-circle' width={40} height={40} />
                                 <div className='flex-grow-1'>
-                                    <div className='fw-bold d-flex justify-content-between'>
+                                    <div className=' d-flex justify-content-between'>
                                         <span>{cmt.user.name}</span>
                                         <small style={{ color: 'white' }}>
                                             {dayjs(cmt.createdAt).format('HH:mm DD/MM/YYYY')}

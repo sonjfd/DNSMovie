@@ -214,3 +214,61 @@
 .nav-item-dropdown > button:hover {
   color: #00ADB5;
 }
+
+
+@media (max-width: 768px) {
+  .custom-nav {
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .custom-nav a,
+  .custom-nav button {
+    padding: 4px 8px;
+    font-size: 14px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .nav-item-dropdown {
+    position: relative;
+  }
+
+  .dropdown-grid {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    background: #111;
+    padding: 10px;
+    border-radius: 6px;
+    width: 200px;
+  }
+
+  .custom-actions {
+    margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .search-form {
+    flex: 1 1 auto;
+    max-width: 70%;
+  }
+
+  .custom-login-btn {
+    padding: 6px 12px;
+  }
+
+  .user-avatar-wrapper {
+    margin-left: auto;
+  }
+}
+
