@@ -16,6 +16,7 @@ const Header = () => {
 
   const [showGenres, setShowGenres] = useState(false);
   const [showCountries, setShowCountries] = useState(false);
+  const [keyword, setKeyword] = useState([])
 
   const genreRef = useRef();
   const countryRef = useRef();
@@ -82,6 +83,13 @@ const Header = () => {
     navigate('/');
   };
 
+  const handleSubmit=(e) => {
+          e.preventDefault();
+          if(keyword.toLowerCase().trim()){
+            navigate(`/tim-kiem?query=${encodeURIComponent(keyword.toLowerCase().trim())}`)
+          }
+  }
+
   if (isLoading) return <LoadingPage />;
 
   return (
@@ -120,7 +128,21 @@ const Header = () => {
       </nav>
 
       <div className="custom-actions">
-        <input type="text" placeholder="Tìm phim..." />
+        <form className='search-form' onSubmit={handleSubmit}>
+          <input
+            type='text'
+            placeholder='Nhập tên phim'
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+
+          <button type="submit">
+            <i className="fas fa-search"></i>
+          </button>
+        </form>
+
+
+
         {!user ? (
           <button className="custom-login-btn" onClick={handleLoginClick}>
             Đăng nhập

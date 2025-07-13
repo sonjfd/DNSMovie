@@ -12,6 +12,7 @@ import MovieByCountry from './pages/MovieByCountry/MovieByCountry';
 import MovieByGenre from './pages/MovieByGenre/MovieByGenre';
 import ListAnime from './pages/Anime/ListAnime';
 import MovieFilterPage from './pages/FilterMoives/MovieFilterPage ';
+import SearchMovie from './pages/SearchMovies/SearchMovie';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path='/the-loai/:slug' element={<MovieByGenre/>}/>
         <Route path='/danh-sach/hoat-hinh' element={<ListAnime/>} />
          <Route path="/loc-phim/:type_list" element={<MovieFilterPage />} />
+         <Route path='/tim-kiem' element={<SearchMovie/>}/>
         <Route path="/admin" element={<Admin />}>
           <Route index element={<ListUser />} />
           <Route path="list-comment" element={<ListComment />} />
