@@ -5,6 +5,7 @@
 
 .movie-card:hover {
   transform: translateY(-4px);
+  cursor: pointer;
 }
 
 .poster-wrapper {

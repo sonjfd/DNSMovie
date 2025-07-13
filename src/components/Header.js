@@ -25,7 +25,7 @@ const Header = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const res = await axios.get('http://localhost:9999/users');
+        const res = await axios.get('https://json-server-movie-txpm.onrender.com/users');
         const foundUser = res.data.find((u) => u.email === firebaseUser.email);
         if (foundUser) {
           setUser({ ...foundUser, uid: firebaseUser.uid });
@@ -42,8 +42,8 @@ const Header = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const resGenres = await axios.get('http://localhost:9999/genres');
-        const resCountries = await axios.get('http://localhost:9999/countries');
+        const resGenres = await axios.get('https://json-server-movie-txpm.onrender.com/genres');
+        const resCountries = await axios.get('https://json-server-movie-txpm.onrender.com/countries');
         setGenres(resGenres.data);
         setCountries(resCountries.data);
       } catch (error) {

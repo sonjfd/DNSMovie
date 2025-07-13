@@ -1,0 +1,43 @@
+.episode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.episode-btn {
+  background: #1f1f1f;
+  border: 1px solid #555;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.episode-btn:hover {
+  background: #343a40;
+}
+
+.episode-btn.active {
+  background: #f8f9fa;
+  color: #000;
+  font-weight: bold;
+}
+
+textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn-warning {
+  color: #000;
+  font-weight: 500;
+  border: none;
+}
+
+
+
+.text-muted a {
+  color: #ffc107 !important;
+  text-decoration: underline;
+}

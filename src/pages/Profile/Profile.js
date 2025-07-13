@@ -28,7 +28,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:9999/users/${id}`);
+        const res = await axios.get(`https://json-server-movie-txpm.onrender.com/users/${id}`);
         const user = res.data;
         userRef.current = user;
 

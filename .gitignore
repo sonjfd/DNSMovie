@@ -11,7 +11,6 @@
 # production
 /build
 
-/src/Firebase/firebase.js
 
 /database.json
 
