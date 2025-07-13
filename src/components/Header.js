@@ -90,7 +90,7 @@ const Header = () => {
             alert('Vui lòng nhập từ khoá tìm kiếm!')
             return;
           }
-          navigate(`/tim-kem/${encodeURIComponent(query)}`)
+          navigate(`/tim-kiem?query=${encodeURIComponent(query)}`)
   }
 
   if (isLoading) return <LoadingPage />;
