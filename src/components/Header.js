@@ -16,7 +16,7 @@ const Header = () => {
 
   const [showGenres, setShowGenres] = useState(false);
   const [showCountries, setShowCountries] = useState(false);
-  const [keyword, setKeyword] = useState([])
+  const [keyword, setKeyword] = useState('')
 
   const genreRef = useRef();
   const countryRef = useRef();
