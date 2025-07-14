@@ -6,6 +6,7 @@ import MovieCard from '../../components/MovieCard'
 import LoadingPage from '../../components/LoadingPage'
 import './Buttons.css'
 import Footer from '../../components/Footer'
+import FilterForm from '../../components/FilterForm'
 
 const MovieByCountry = () => {
   const { slug } = useParams()
@@ -17,6 +18,7 @@ const MovieByCountry = () => {
   const [titlePage, setTitlePage] = useState("")
   const debounceRef = useRef();
   const [inputPage, setInputPage] = useState(page);
+  const [showFilter, setShowFilter] = useState(false);
 
 
   useEffect(() => {
@@ -53,10 +55,12 @@ const MovieByCountry = () => {
         <div className="d-flex justify-content-between align-items-center mt-4 mb-3">
           <h3 className="text-white m-0">Phim {titlePage}</h3>
 
-          <button className="btn btn-sm btn-outline-light d-flex align-items-center gap-1">
+          <button className="btn btn-sm btn-outline-light d-flex align-items-center gap-1"  onClick={() => setShowFilter(!showFilter)}>
             <i className="fas fa-filter"></i> Bộ lọc
           </button>
         </div>
+
+         {showFilter && <FilterForm onClose={() => setShowFilter(false)} />}
 
         <div className="row ">
           {

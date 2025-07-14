@@ -37,12 +37,7 @@ const WatchHistory = () => {
                 const results = await Promise.all(
                     history.map(h => axios.get(`https://phimapi.com/phim/${h.slug}`))
                 );
-
-                const movieList = results.map((res, index) => ({
-                    ...res.data.movie,
-                    episodeWatched: history[index].episode
-                }));
-
+                const movieList = results.map((res) => res.data.movie)
                 setMovies(movieList);
             } catch (error) {
                 console.log(error);

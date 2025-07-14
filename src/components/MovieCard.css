@@ -30,9 +30,46 @@
   transition: opacity 0.3s ease;
 }
 
-.poster-wrapper:hover .action-buttons {
+.movie-card:hover .action-buttons {
   opacity: 1;
 }
+
+.action-buttons .btn-light {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  background-color: #ffffffcc;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.action-buttons .btn-light:hover {
+  background-color: #ffc107;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.action-buttons .btn-danger {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dc3545;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-buttons .btn-danger:hover {
+  background-color: #e60023;
+  transform: scale(1.1);
+}
+
+.action-buttons i {
+  pointer-events: none; 
+}
+
 
 .movie-title {
   font-size: 0.95rem;
