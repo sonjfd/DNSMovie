@@ -28,59 +28,68 @@ const HomePage = () => {
   const [anime, setAnime] = useState([])
 
   const [isLoading, setIsLoading] = useState(true);
-   const navigate =useNavigate()
+  const navigate = useNavigate()
 
   const movie = banners.length > 0 ? banners[currentIndex] : null;
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const bannerRes = await Promise.all(
-          bannerUrls.map(async (url) => {
-            const res = await axios.get(url);
-            return res.data.movie;
-          })
-        );
+  const fetchData = async () => {
+    try {
+      // Load banner
+      const bannerRes = await Promise.all(
+        bannerUrls.map(async (url) => {
+          const res = await axios.get(url);
+          return res.data.movie;
+        })
+      );
 
-        const newMovieRes = await axios.get(
-          'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1&limit=20'
-        );
-        const trungQuocRes = await axios.get(
-          'https://phimapi.com/v1/api/danh-sach/phim-bo?country=trung-quoc&page=1&limit=30'
-        );
-        const hanQuocRes = await axios.get(
-          'https://phimapi.com/v1/api/danh-sach/phim-bo?country=han-quoc&page=1&limit=30'
-        );
-        const auMyRes = await axios.get(
-          'https://phimapi.com/v1/api/danh-sach/phim-bo?country=au-my&page=1&limit=24'
-        );
-        const leRes = await axios.get(
-          'https://phimapi.com/v1/api/danh-sach/phim-le?page=1&limit=24'
-        );
+      // Phim mới cập nhật
+      const [newMovie1, newMovie2] = await Promise.all([
+        axios.get('https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1'),
+        axios.get('https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=2')
+      ]);
 
-        const vietNamRes = await axios.get(
-          'https://phimapi.com/v1/api/quoc-gia/viet-nam?page=1&limit=24'
-        );
-        const animeRes = await axios.get('https://phimapi.com/v1/api/danh-sach/hoat-hinh?page=1')
+      // Phim lẻ
+      const [le1, le2] = await Promise.all([
+        axios.get('https://phimapi.com/v1/api/danh-sach/phim-le?page=1'),
+        axios.get('https://phimapi.com/v1/api/danh-sach/phim-le?page=2')
+      ]);
 
+      // Phim Việt Nam
+      const [vn1, vn2] = await Promise.all([
+        axios.get('https://phimapi.com/v1/api/quoc-gia/viet-nam?page=1'),
+        axios.get('https://phimapi.com/v1/api/quoc-gia/viet-nam?page=2')
+      ]);
 
-        setAnime(animeRes.data.data.items)
-        setPhimVietNam(vietNamRes.data.data.items);
-        setBanners(bannerRes);
-        setNewMovies(newMovieRes.data.items);
-        setPhimTrungQuoc(trungQuocRes.data.data.items);
-        setPhimHan(hanQuocRes.data.data.items);
-        setPhimAuMy(auMyRes.data.data.items);
-        setPhimLe(leRes.data.data.items);
-      } catch (err) {
-        console.error('Lỗi khi tải dữ liệu:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      // Hoạt hình
+      const [anime1, anime2] = await Promise.all([
+        axios.get('https://phimapi.com/v1/api/danh-sach/hoat-hinh?page=1'),
+        axios.get('https://phimapi.com/v1/api/danh-sach/hoat-hinh?page=2')
+      ]);
 
-    fetchData();
-  }, []);
+      // Phim bộ các quốc gia
+      const trungQuocRes = await axios.get('https://phimapi.com/v1/api/danh-sach/phim-bo?country=trung-quoc&page=1');
+      const hanQuocRes = await axios.get('https://phimapi.com/v1/api/danh-sach/phim-bo?country=han-quoc&page=1');
+      const auMyRes = await axios.get('https://phimapi.com/v1/api/danh-sach/phim-bo?country=au-my&page=1');
+
+      // Set state
+      setBanners(bannerRes);
+      setNewMovies([...newMovie1.data.items, ...newMovie2.data.items]);
+      setPhimLe([...le1.data.data.items, ...le2.data.data.items]);
+      setPhimVietNam([...vn1.data.data.items, ...vn2.data.data.items]);
+      setAnime([...anime1.data.data.items, ...anime2.data.data.items]);
+      setPhimTrungQuoc(trungQuocRes.data.data.items);
+      setPhimHan(hanQuocRes.data.data.items);
+      setPhimAuMy(auMyRes.data.data.items);
+    } catch (err) {
+      console.error('Lỗi khi tải dữ liệu:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
 
   const handleSelect = (index) => {
     if (index === currentIndex) return;
@@ -91,10 +100,10 @@ const HomePage = () => {
     }, 300);
   };
 
-   const handlePlay = (slug) => {
+  const handlePlay = (slug) => {
     navigate(`/xem-phim/${slug}`)
-    
-   }
+
+  }
 
   if (isLoading) return <LoadingPage />;
 
@@ -136,7 +145,7 @@ const HomePage = () => {
                 </div>
                 <p className="desc">{movie.content}</p>
                 <div className="actions">
-                  <button className="btn play" onClick={()=> handlePlay(movie.slug)}>
+                  <button className="btn play" onClick={() => handlePlay(movie.slug)}>
                     <i className="fas fa-play"></i>
                   </button>
                   <button className="btn">
@@ -176,7 +185,7 @@ const HomePage = () => {
 
         <div className="container-fluid highlighted-section mb-5">
           <h4>PHIM VIỆT NAM</h4>
-          <MovieSwiper movies={phimVietNam.slice(0, 10)} />
+            <MovieSwiper movies={phimVietNam.slice(0, 20)} />
         </div>
 
 
@@ -184,14 +193,14 @@ const HomePage = () => {
 
         <div className="container-fluid highlighted-section mb-5">
           <h4>PHIM LẺ</h4>
-          <MovieSwiper movies={phimLe.slice(0, 10)} />
+          <MovieSwiper movies={phimLe.slice(0, 20)} />
         </div>
 
         <hr style={{ color: 'white' }} />
 
         <div className="container-fluid highlighted-section mb-5">
           <h4>ANIME MỚI NHẤT</h4>
-          <MovieSwiper movies={anime.slice(0, 10)} />
+          <MovieSwiper movies={anime.slice(0, 20)} />
         </div>
 
 

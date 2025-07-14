@@ -14,9 +14,10 @@ const MovieCarousel = ({ movies }) => {
         slidesPerView="auto"
         spaceBetween={16}
         navigation={true}
-        loop={true}
+        loop={movies.length > 5} // chỉ loop nếu đủ 6 phim trở lên
         className="movie-swiper"
       >
+
         {movies.map((movie, index) => (
           <SwiperSlide key={index}>
             <MovieCard movie={movie} />
