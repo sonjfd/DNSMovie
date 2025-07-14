@@ -13,8 +13,8 @@ const MovieCarousel = ({ movies }) => {
         modules={[Navigation]}
         slidesPerView="auto"
         spaceBetween={16}
-        navigation
-        loop={true} 
+        navigation={true}
+        loop={true}
         className="movie-swiper"
       >
         {movies.map((movie, index) => (

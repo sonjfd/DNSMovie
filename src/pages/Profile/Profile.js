@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import { auth } from '../../Firebase/firebase';
 import { updatePassword } from 'firebase/auth';
 import Footer from './../../components/Footer';
+import LeftProfile from '../../components/LeftProfile';
 
 const Profile = () => {
   const { id } = useParams();
@@ -28,7 +29,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`https://json-server-movie-txpm.onrender.com/users/${id}`);
+        const res = await axios.get(`http://localhost:9999/users/${id}`);
         const user = res.data;
         userRef.current = user;
 
@@ -56,7 +57,7 @@ const Profile = () => {
     formData.append("upload_preset", "my_unsigned_preset");
 
     try {
-      const res = await axios.post("https://api.cloudinary.com/v1_1/dyjolz1us/image/upload", formData);
+      const res = await axios.post("http://localhost:9999/users", formData);
       const data = res.data;
       setPreviewImg(data.secure_url);
       setInfoForm(pre => ({ ...pre, img: data.secure_url }));
@@ -156,21 +157,7 @@ const Profile = () => {
       <div className="container-fluid p-4 text-white" style={{ minHeight: '100vh' }}>
         <div className="row">
           <div className="col-md-2 p-3 bg-dark" style={{ borderRadius: '12px' }}>
-            <h5 className="text-light mb-4">Quản lý tài khoản</h5>
-            <div className="d-flex flex-column gap-3">
-              <Link to="/" className="text-decoration-none text-white d-flex align-items-center gap-2">
-                <i className="fa-solid fa-house"></i><span>Trang Chủ</span>
-              </Link>
-              <Link to="/" className="text-decoration-none text-white d-flex align-items-center gap-2">
-                <i className="fa-solid fa-plus"></i><span>Danh sách</span>
-              </Link>
-              <Link to="/" className="text-decoration-none text-white d-flex align-items-center gap-2">
-                <i className="fa-solid fa-play"></i><span>Xem tiếp</span>
-              </Link>
-              <Link to="/" className="text-decoration-none text-warning d-flex align-items-center gap-2">
-                <i className="fa-solid fa-user"></i><span>Tài khoản</span>
-              </Link>
-            </div>
+           <LeftProfile/>
           </div>
 
           <div className="col-md-10">
