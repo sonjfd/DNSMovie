@@ -32,15 +32,15 @@ const LeftProfile = () => {
         </Link>
 
         <Link
-          to="/watching"
-          className={`text-decoration-none d-flex align-items-center gap-2 ${isPathMatch('/watching') ? 'text-primary fw-bold' : 'text-white'}`}
+          to="/favorite"
+          className={`text-decoration-none d-flex align-items-center gap-2 ${isPathMatch('/favorite') ? 'text-primary fw-bold' : 'text-white'}`}
         >
           <i className="fa-solid fa-heart"></i> <span>Phim yêu thích</span>
         </Link>
 
         <Link
           to={userId ? `/profile/${userId}` : '/login'}
-          className={`text-decoration-none d-flex align-items-center gap-2 ${isPathMatch('/profile') ? 'text-warning fw-bold' : 'text-white'}`}
+          className={`text-decoration-none d-flex align-items-center gap-2 ${isPathMatch('/profile') ? 'text-primary fw-bold' : 'text-white'}`}
         >
           <i className="fa-solid fa-user"></i> <span>Tài khoản</span>
         </Link>

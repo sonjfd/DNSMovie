@@ -15,6 +15,7 @@ import MovieFilterPage from './pages/FilterMoives/MovieFilterPage ';
 import SearchMovie from './pages/SearchMovies/SearchMovie';
 import WatchMovie from './pages/WatchMovie/WatchMovie';
 import WatchHistory from './pages/WatchHistory/WatchHistory';
+import FavoriteMovie from './pages/FavoriteMovie/FavoriteMovie';
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
          <Route path='/tim-kiem' element={<SearchMovie/>}/>
          <Route path='/xem-phim/:slug' element={<WatchMovie/>}/>
          <Route path="/history" element={<WatchHistory />} />
-
+          <Route path='/favorite' element={<FavoriteMovie/>}/>
         <Route path="/admin" element={<Admin />}>
           <Route index element={<ListUser />} />
           <Route path="list-comment" element={<ListComment />} />

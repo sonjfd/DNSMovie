@@ -86,8 +86,9 @@ const WatchMovie = () => {
           content: comment,
           createdAt: new Date().toISOString()
         };
-        const res = await axios.post(`http://localhost:9999/comments`, newComment);
-        setComments([res.data, ...comments]);
+        await axios.post(`http://localhost:9999/comments`, newComment);
+        setComments(pre => [newComment, ...pre]);
+
       }
 
       setComment('');
@@ -250,7 +251,7 @@ const WatchMovie = () => {
                   <img src={u?.img || '/images/macdinh.png'} alt='avatar' className='rounded-circle' width={40} height={40} />
                   <div className='flex-grow-1'>
                     <div className='d-flex justify-content-between'>
-                      <span>{u?.fullname || 'Ẩn danh'}</span>
+                      <h5 className='text-bold'> {u.fullname}</h5>
                       <small style={{ color: 'white' }}>{dayjs(cmt.createdAt).format('HH:mm DD/MM/YYYY')}</small>
                     </div>
                     <div>{cmt.content}</div>
