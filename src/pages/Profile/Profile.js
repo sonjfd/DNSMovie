@@ -103,7 +103,9 @@ const Profile = () => {
         email: infoForm.email,
         gender,
         phone,
-        img
+        img,
+        status: 1,
+          role: 1
       };
       await axios.put(`http://localhost:9999/users/${id}`, updateUser);
       userRef.current = { ...updateUser };

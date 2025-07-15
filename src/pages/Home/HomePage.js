@@ -105,6 +105,9 @@ const HomePage = () => {
 
   }
 
+  
+
+
   if (isLoading) return <LoadingPage />;
 
   const renderSection = (title, movies, slug, color = 'white') => (

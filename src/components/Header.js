@@ -160,7 +160,7 @@ const Header = () => {
             />
             <div className="user-dropdown" ref={dropdownRef}>
               {user.role === 0 ? (
-                <Link to="/admin">Trang Admin</Link>
+                <Link to="/list-user">Trang Admin</Link>
               ) : (
                 <Link to={`/profile/${user.id}`}>Trang cá nhân</Link>
               )}

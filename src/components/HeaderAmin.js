@@ -1,71 +1,88 @@
 import { signOut } from 'firebase/auth';
-import { Col, Container, Dropdown, Image, Nav, Navbar,  Row } from 'react-bootstrap'
 import { auth } from '../Firebase/firebase';
-import {  NavLink, useNavigate } from 'react-router-dom';
-import './HeaderAmin.css'
+import { NavLink, useNavigate } from 'react-router-dom';
+import './HeaderAmin.css';
 
-const HeaderAmin = () => {
-    const navigate = useNavigate();
+const HeaderAmin = ({ children }) => {
+  const navigate = useNavigate();
 
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            navigate('/');
-        } catch (error) {
-            console.error("Đăng xuất thất bại:", error);
-        }
-    };
-    return (
-        <>
-            <Navbar bg='dark' variant='dark'>
-                <Navbar.Brand href='/' className='ps-4' style={{ color: "#00ADB5", fontWeight: 'bold', fontSize: '30px',textAlign:'center' }}>Trang chủ</Navbar.Brand>
-                <Nav className='ms-auto'>
-                    <Dropdown align="end">
-                        <Dropdown.Toggle variant='dark' id='dropdown-basic'>
-                            <Image src='/images/macdinh.png' roundedCircle style={{ height: '30px' }} />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={handleLogout} className="text-danger">
-                                Đăng xuất
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Nav>
-            </Navbar>
-            <Container fluid className='p-0' style={{ minHeight: '100vh' }}>
-                <Row noGutters>
-                    <Col md={2}>
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem('user');
+      navigate('/');
+    } catch (error) {
+      console.error('Đăng xuất thất bại:', error);
+    }
+  };
 
-                        <div className='bg-dark ' style={{ height: "100vh", paddingTop: '50px' }}>
-                            <div className='d-flex flex-column  text-white  p-3 gap-3 ' >
-                                <NavLink
-                                    to="/admin"
-                                    className={({ isActive }) =>
-                                        `text-white nav-link ${isActive ? 'active-link' : ''}`
-                                    }
-                                >
-                                   <i className='fa-solid fa-user'></i>  Danh sách người dùng
-                                </NavLink>
+  return (
+    <>
+      {/* Navbar top */}
+      <nav className="navbar navbar-dark bg-dark px-4">
+        <a className="navbar-brand fw-bold fs-3 text-info" href="/">
+          Trang chủ
+        </a>
 
-                                <NavLink
-                                    to="/list-comment"
-                                    className={({ isActive }) =>
-                                        `text-white nav-link ${isActive ? 'active-link' : ''}`
-                                    }
-                                >
-                                  <i className='fa-solid fa-comments'></i>  Danh sách comment
-                                </NavLink>
+        <div className="dropdown">
+          <button
+            className="btn btn-dark dropdown-toggle"
+            type="button"
+            id="userDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="/images/macdinh.png"
+              alt="avatar"
+              className="rounded-circle"
+              style={{ height: '30px' }}
+            />
+          </button>
+          <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li>
+              <button className="dropdown-item text-danger" onClick={handleLogout}>
+                Đăng xuất
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-                            </div>
+      {/* Layout: sidebar + content */}
+      <div className="container-fluid p-0">
+        <div className="row g-0">
+          {/* Sidebar trái */}
+          <div className="col-md-2 bg-dark text-white" style={{ minHeight: '100vh' }}>
+            <div className="d-flex flex-column p-4 gap-3">
+              <NavLink
+                to="/list-user"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? 'text-primary fw-bold' : 'text-white'}`
+                }
+              >
+                <i className="fa-solid fa-user me-2"></i> Danh sách người dùng
+              </NavLink>
 
-                        </div>
-                    </Col>
-                 
+              <NavLink
+                to="/list-comment"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? 'text-primary fw-bold' : 'text-white'}`
+                }
+              >
+                <i className="fa-solid fa-comments me-2"></i> Danh sách bình luận
+              </NavLink>
+            </div>
+          </div>
 
-                </Row>
-            </Container>
-        </>
-    )
-}
+          {/* Nội dung phải */}
+          <div className="col-md-10 p-4">
+            {children}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default HeaderAmin
+export default HeaderAmin;

@@ -5,7 +5,6 @@ import Login from './Feature/Login';
 import Register from './Feature/Register';
 import ForgotPassword from './Feature/ForgotPassword';
 import UserProfile from './pages/Profile/Profile';
-import Admin from './pages/Admin/Admin';
 import ListComment from './pages/Admin/ListComment';
 import ListUser from './pages/Admin/ListUser';
 import MovieByCountry from './pages/MovieByCountry/MovieByCountry';
@@ -34,10 +33,9 @@ function App() {
          <Route path='/xem-phim/:slug' element={<WatchMovie/>}/>
          <Route path="/history" element={<WatchHistory />} />
           <Route path='/favorite' element={<FavoriteMovie/>}/>
-        <Route path="/admin" element={<Admin />}>
-          <Route index element={<ListUser />} />
+          <Route path='/list-user' element={<ListUser/>}/>
           <Route path="list-comment" element={<ListComment />} />
-        </Route>
+     
 
       </Routes>
     </BrowserRouter>

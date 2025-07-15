@@ -14,20 +14,32 @@ const Login = () => {
   const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        setErr('');
-        try {
-            const userCredential= await signInWithEmailAndPassword(auth, email, password);
-            const user=userCredential.user;
-            localStorage.setItem('user',JSON.stringify(user));
-                  navigate('/');
+  e.preventDefault();
+  setErr('');
 
-        } catch (error) {
-            console.log(error)
-            setErr('Email hoặc mật khẩu không đúng!')
-            
-        }
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    const res = await fetch(`http://localhost:9999/users?email=${user.email}`);
+    const data = await res.json();
+
+
+
+    const currentUser = data[0];
+
+    if (currentUser.status === 0) {
+      setErr("Tài khoản của bạn đã bị khóa !");
+      return;
     }
+    localStorage.setItem('user', JSON.stringify(user));
+    navigate('/');
+  } catch (error) {
+    console.error(error);
+    setErr('Email hoặc mật khẩu không đúng!');
+  }
+};
+
 
     return (
         <div className="login-wrapper">
