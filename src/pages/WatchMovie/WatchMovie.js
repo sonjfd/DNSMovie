@@ -7,6 +7,8 @@ import LoadingPage from '../../components/LoadingPage';
 import './WatchMovie.css';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import MovieSuggestions from '../../components/MovieSuggestions';
+
 dayjs.extend(relativeTime);
 
 const WatchMovie = () => {
@@ -23,8 +25,16 @@ const WatchMovie = () => {
   const [comment, setComment] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [showRatingModal, setShowRatingModal] = useState(false);
-  const [ratings, setRatings] = useState([])
-  const [ratingValue, setRatingValue] = useState([])
+  const [ratings, setRatings] = useState([]);
+  const [ratingValue, setRatingValue] = useState([]);
+ 
+
+
+
+
+  
+
+
 
   useEffect(() => {
     const raw = localStorage.getItem('user');
@@ -70,26 +80,26 @@ const WatchMovie = () => {
   }, [movie]);
 
   useEffect(() => {
-    const fetchRatings = async () => {
-      const res = await axios.get('http://localhost:9999/ratings')
-      setRatings(res.data)
-    }
-    fetchRatings()
-  }, [movie])
+  if (!movie?.slug) return;
 
+  const fetchRatings = async () => {
+    try {
+      const res = await axios.get(`http://localhost:9999/ratings?movieSlug=${movie.slug}`);
+      setRatings(res.data);
 
-  useEffect(() => {
-    const fetchRating = async () => {
-      const res = await axios.get(`http://localhost:9999/ratings?movieSlug=${movie?.slug}`)
-      const ratings = res.data;
-      if (ratings.length === 0) return;
-      const totalRating = ratings.reduce((total, r) => total + parseFloat(r.score), 0)
-      const avg = totalRating / ratings.length;
-      console.log(avg)
-      setAverageRating(avg)
+      if (res.data.length > 0) {
+        const total = res.data.reduce((acc, r) => acc + parseFloat(r.score), 0);
+        const avg = total / res.data.length;
+        setAverageRating(avg);
+      }
+    } catch (err) {
+      console.error('Lỗi lấy ratings:', err);
     }
-    fetchRating()
-  }, [movie])
+  };
+
+  fetchRatings();
+}, [movie]);
+
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -179,40 +189,40 @@ const WatchMovie = () => {
 
         {/* Thông tin phim */}
         <div className='d-flex gap-4 mb-4'>
-  <div style={{ position: 'relative', width: "850px" }}>
-    <img src={movie.poster_url} alt={movie.name} className='rounded w-100' />
+          <div style={{ position: 'relative', width: "850px" }}>
+            <img src={movie.poster_url} alt={movie.name} className='rounded w-100' />
 
-    {averageRating && (
-      <div
-        className='text-warning bg-dark bg-opacity-75 p-2 rounded'
-        style={{
-          position: 'absolute',
-          top: '0.25rem',
-          right: '0.25rem',
-          fontSize: '0.9rem',
-          textAlign: 'right',
-          lineHeight: '1.2',
-        }}
-      >
-        <i className="fas fa-star"></i> <strong>{averageRating.toFixed(1)}</strong> / 10<br />
-      </div>
-    )}
-  </div>
+            {averageRating && (
+              <div
+                className='text-warning bg-dark bg-opacity-75 p-2 rounded'
+                style={{
+                  position: 'absolute',
+                  top: '0.25rem',
+                  right: '0.25rem',
+                  fontSize: '0.9rem',
+                  textAlign: 'right',
+                  lineHeight: '1.2',
+                }}
+              >
+                <i className="fas fa-star"></i> <strong>{averageRating.toFixed(1)}</strong> / 10<br />
+              </div>
+            )}
+          </div>
 
-  <div>
-    <h3>{movie.name}</h3>
-    <p className='text-danger'>{movie.origin_name} | {movie.year} | {movie.lang}</p>
-    <div className='mb-2'>
-      {movie.category.map((c, i) => (
-        <span key={i} className='badge bg-light text-dark me-2'>{c.name}</span>
-      ))}
-      {movie.country.map((c, i) => (
-        <span key={i} className='badge bg-secondary me-2'>{c.name}</span>
-      ))}
-    </div>
-    <p>{movie.content}</p>
-  </div>
-</div>
+          <div>
+            <h3>{movie.name}</h3>
+            <p className='text-danger'>{movie.origin_name} | {movie.year} | {movie.lang}</p>
+            <div className='mb-2'>
+              {movie.category.map((c, i) => (
+                <span key={i} className='badge bg-light text-dark me-2'>{c.name}</span>
+              ))}
+              {movie.country.map((c, i) => (
+                <span key={i} className='badge bg-secondary me-2'>{c.name}</span>
+              ))}
+            </div>
+            <p>{movie.content}</p>
+          </div>
+        </div>
 
 
         {/* Iframe */}
@@ -424,6 +434,14 @@ const WatchMovie = () => {
                               createdAt: new Date().toISOString()
                             })
                           }
+
+                          const updated = [...ratings.filter(r => r.movieSlug === movie.slug && r.userId !== user.uid)];
+                          updated.push({ score: value });
+                          const total = updated.reduce((acc, r) => acc + parseFloat(r.score), 0);
+                          const avg = total / updated.length;
+                          setAverageRating(avg);
+
+
                           alert(`Bạn đã đánh giá "${movie.name}" ${value}/10`);
                           setShowRatingModal(false)
                         } catch (error) {
@@ -441,10 +459,15 @@ const WatchMovie = () => {
               </div>
             </div>
         )
-
-
-
       }
+
+
+     <MovieSuggestions movie={movie} />
+
+
+
+
+
       <Footer />
     </>
   );

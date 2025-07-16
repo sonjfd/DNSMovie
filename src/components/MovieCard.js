@@ -8,9 +8,10 @@ const MovieCard = ({ movie }) => {
   const [averageRating, setAverageRating] = useState(null);
   const navigate = useNavigate();
 
-  const imgSrc = movie.thumb_url.startsWith('http')
-    ? movie.thumb_url
-    : `https://phimimg.com/${movie.thumb_url}`;
+  const imgSrc = movie.thumb_url?.startsWith('http')
+  ? movie.thumb_url
+  : `https://img.phimapi.com/${movie.thumb_url}`;
+
 
   const handleClickWatch = (slug) => {
     navigate(`/xem-phim/${slug}`);
