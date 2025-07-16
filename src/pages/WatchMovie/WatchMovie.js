@@ -16,13 +16,15 @@ const WatchMovie = () => {
   const [currentEpisode, setCurrentEpisode] = useState(null);
   const [selectedRange, setSelectedRange] = useState([1, 100]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [averageRating, setAverageRating] = useState(null);
   const [user, setUser] = useState(null);
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
   const [comment, setComment] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
-
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [ratings, setRatings] = useState([])
+  const [ratingValue, setRatingValue] = useState([])
 
   useEffect(() => {
     const raw = localStorage.getItem('user');
@@ -66,6 +68,28 @@ const WatchMovie = () => {
     };
     fetchAll();
   }, [movie]);
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      const res = await axios.get('http://localhost:9999/ratings')
+      setRatings(res.data)
+    }
+    fetchRatings()
+  }, [movie])
+
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const res = await axios.get(`http://localhost:9999/ratings?movieSlug=${movie?.slug}`)
+      const ratings = res.data;
+      if (ratings.length === 0) return;
+      const totalRating = ratings.reduce((total, r) => total + parseFloat(r.score), 0)
+      const avg = totalRating / ratings.length;
+      console.log(avg)
+      setAverageRating(avg)
+    }
+    fetchRating()
+  }, [movie])
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -155,17 +179,41 @@ const WatchMovie = () => {
 
         {/* Thông tin phim */}
         <div className='d-flex gap-4 mb-4'>
-          <img src={movie.poster_url} alt={movie.name} className='rounded' style={{ width: "200px" }} />
-          <div>
-            <h3>{movie.name}</h3>
-            <p className='text-danger'>{movie.origin_name} | {movie.year} | {movie.lang}</p>
-            <div className='mb-2'>
-              {movie.category.map((c, i) => <span key={i} className='badge bg-light text-dark me-2'>{c.name}</span>)}
-              {movie.country.map((c, i) => <span key={i} className='badge bg-secondary me-2'>{c.name}</span>)}
-            </div>
-            <p>{movie.content}</p>
-          </div>
-        </div>
+  <div style={{ position: 'relative', width: "850px" }}>
+    <img src={movie.poster_url} alt={movie.name} className='rounded w-100' />
+
+    {averageRating && (
+      <div
+        className='text-warning bg-dark bg-opacity-75 p-2 rounded'
+        style={{
+          position: 'absolute',
+          top: '0.25rem',
+          right: '0.25rem',
+          fontSize: '0.9rem',
+          textAlign: 'right',
+          lineHeight: '1.2',
+        }}
+      >
+        <i className="fas fa-star"></i> <strong>{averageRating.toFixed(1)}</strong> / 10<br />
+      </div>
+    )}
+  </div>
+
+  <div>
+    <h3>{movie.name}</h3>
+    <p className='text-danger'>{movie.origin_name} | {movie.year} | {movie.lang}</p>
+    <div className='mb-2'>
+      {movie.category.map((c, i) => (
+        <span key={i} className='badge bg-light text-dark me-2'>{c.name}</span>
+      ))}
+      {movie.country.map((c, i) => (
+        <span key={i} className='badge bg-secondary me-2'>{c.name}</span>
+      ))}
+    </div>
+    <p>{movie.content}</p>
+  </div>
+</div>
+
 
         {/* Iframe */}
         <div className='mb-4' style={{ aspectRatio: '16/9' }}>
@@ -179,7 +227,7 @@ const WatchMovie = () => {
         </div>
 
         {/* Ranges */}
-        <div className='mb-3 d-flex flex-wrap gap-2'>
+        <div className='mb-3 d-flex flex-wrap gap-2 me-2'>
           {splitRanges().map((range, index) => (
             <button
               key={index}
@@ -189,7 +237,23 @@ const WatchMovie = () => {
               Tập {range[0]} - {range[1]}
             </button>
           ))}
+
+          {/* {rating} */}
+
+
+          <button
+            className='btn btn-sm btn-outline-warning'
+            onClick={() => {
+              setShowRatingModal(true);
+
+            }}
+          >
+            <i className='fas fa-star'></i>
+          </button>
         </div>
+
+
+
 
         {/* Episodes */}
         <div className="episode-grid mb-5">
@@ -275,6 +339,112 @@ const WatchMovie = () => {
         </div>
 
       </div>
+
+      {
+
+        showRatingModal && (
+          !user ? (
+            <div className='modal show d-block' tabIndex="-1">
+              <div className='modal-dialog'>
+                <div className='modal-content bg-dark text-white'>
+                  <div className='modal-header'>
+                    <h5>Đánh giá phim : {movie.name}</h5>
+                    <button
+                      type='button'
+                      className='btn-close btn-close-white'
+                      onClick={() => setShowRatingModal(false)}
+                    >
+                    </button>
+                  </div>
+                  <div className='modal-body'>
+                    <p className='text-white'>Bạn cần phải<Link className='text-danger' to={'/login'}> đăng nhập </Link>để có thể đánh giá</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          ) :
+            <div
+              className='modal show d-block'
+              tabIndex="-1"
+              style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+            >
+              <div className='modal-dialog'>
+                <div className='modal-content bg-dark text-white'>
+                  <div className='modal-header'>
+                    <h5>Đánh giá phim : {movie.name}</h5>
+
+                    <button
+                      type='button'
+                      className='btn-close btn-close-white'
+                      onClick={() => setShowRatingModal(false)}
+                    >
+                    </button>
+                  </div>
+
+                  <div className='modal-body'>
+                    <label>Nhập đánh giá (1-10):</label>
+                    <input
+                      type='number'
+                      className='form-control'
+                      value={ratingValue}
+                      onChange={(e) => setRatingValue(e.target.value)}
+                      min="1"
+                      max="10"
+                      step="0.1"
+                    />
+                  </div>
+                  <div className='modal-footer'>
+                    <button className='btn btn-secondary' onClick={() => setShowRatingModal(false)}>
+                      Đóng
+                    </button>
+                    <button className='btn btn-primary'
+                      onClick={async () => {
+                        const value = parseFloat(ratingValue);
+                        if (isNaN(value) || value < 1 || value > 10) {
+                          alert('Vui lòng nhập từ 1 đến 10');
+                          return;
+                        }
+                        try {
+
+                          const existing = ratings.find((r) => r.movieSlug === movie.slug && r.userId === user?.uid)
+
+                          if (existing) {
+                            await axios.put(`http://localhost:9999/ratings/${existing.id}`, {
+                              ...existing,
+                              score: ratingValue,
+                              createdAt: new Date().toISOString()
+                            })
+
+                          } else {
+                            await axios.post(`http://localhost:9999/ratings`, {
+                              userId: user.uid,
+                              movieSlug: movie.slug,
+                              score: ratingValue,
+                              createdAt: new Date().toISOString()
+                            })
+                          }
+                          alert(`Bạn đã đánh giá "${movie.name}" ${value}/10`);
+                          setShowRatingModal(false)
+                        } catch (error) {
+                          console.log(error)
+                        }
+                      }}
+
+                    >
+                      Giửi đánh giá
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+        )
+
+
+
+      }
       <Footer />
     </>
   );
