@@ -151,6 +151,9 @@ const WatchMovie = () => {
     return ranges;
   };
 
+
+  const filterComments = comments.filter(cmt => cmt.movieId===movie._id)
+
   const filteredEpisodes = episodes.filter((_, idx) => {
     const index = idx + 1;
     return index >= selectedRange[0] && index <= selectedRange[1];
@@ -280,7 +283,7 @@ const WatchMovie = () => {
 
         {/* Bình luận */}
         <div className='bg-dark text-white p-4 rounded'>
-          <h5 className='mb-3'><i className='fas fa-comments'></i> Bình luận ({comments.length})</h5>
+          <h5 className='mb-3'><i className='fas fa-comments'></i> Bình luận ({filterComments.length})</h5>
 
           {user && (
             <form onSubmit={handleSubmitComment} className='mb-4'>
@@ -318,7 +321,7 @@ const WatchMovie = () => {
           {comments.length === 0 ? (
             <p>Chưa có bình luận nào.</p>
           ) : (
-            comments.map(cmt => {
+            comments.filter(cmt => cmt.movieId===movie._id).map(cmt => {
               const u = getUserById(cmt.userId);
               return (
                 <div key={cmt.id} className='d-flex gap-3 mb-4'>
