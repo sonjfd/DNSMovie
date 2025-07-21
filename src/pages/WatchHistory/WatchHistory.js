@@ -50,12 +50,12 @@ const WatchHistory = () => {
         else setIsLoading(false);
     }, [history]);
 
-    const filteredMovies = movies.filter(m =>
-        m.name.toLowerCase().includes(key.toLowerCase())
+    const filteredMovies = movies?.filter(m =>
+       m==='' || m?.name.toLowerCase().includes(key.toLowerCase())
     );
 
-    const totalPages = Math.ceil(filteredMovies.length / itemsPerPage);
-    const paginatedMovies = filteredMovies.slice(
+    const totalPages = Math.ceil(filteredMovies?.length / itemsPerPage);
+    const paginatedMovies = filteredMovies?.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );

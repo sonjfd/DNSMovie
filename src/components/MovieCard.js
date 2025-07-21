@@ -8,9 +8,11 @@ const MovieCard = ({ movie }) => {
   const [averageRating, setAverageRating] = useState(null);
   const navigate = useNavigate();
 
-  const imgSrc = movie.thumb_url?.startsWith('http')
+  const imgSrc = movie?.thumb_url?.startsWith('http')
   ? movie.thumb_url
-  : `https://img.phimapi.com/${movie.thumb_url}`;
+  : movie?.thumb_url
+    ? `https://img.phimapi.com/${movie.thumb_url}`
+    : '/images/macdinh.jpg';
 
 
   const handleClickWatch = (slug) => {

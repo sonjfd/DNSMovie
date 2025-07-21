@@ -27,12 +27,12 @@ const WatchMovie = () => {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [ratings, setRatings] = useState([]);
   const [ratingValue, setRatingValue] = useState([]);
- 
 
 
 
 
-  
+
+
 
 
 
@@ -80,25 +80,25 @@ const WatchMovie = () => {
   }, [movie]);
 
   useEffect(() => {
-  if (!movie?.slug) return;
+    if (!movie?.slug) return;
 
-  const fetchRatings = async () => {
-    try {
-      const res = await axios.get(`http://localhost:9999/ratings?movieSlug=${movie.slug}`);
-      setRatings(res.data);
+    const fetchRatings = async () => {
+      try {
+        const res = await axios.get(`http://localhost:9999/ratings?movieSlug=${movie.slug}`);
+        setRatings(res.data);
 
-      if (res.data.length > 0) {
-        const total = res.data.reduce((acc, r) => acc + parseFloat(r.score), 0);
-        const avg = total / res.data.length;
-        setAverageRating(avg);
+        if (res.data.length > 0) {
+          const total = res.data.reduce((acc, r) => acc + parseFloat(r.score), 0);
+          const avg = total / res.data.length;
+          setAverageRating(avg);
+        }
+      } catch (err) {
+        console.error('Lỗi lấy ratings:', err);
       }
-    } catch (err) {
-      console.error('Lỗi lấy ratings:', err);
-    }
-  };
+    };
 
-  fetchRatings();
-}, [movie]);
+    fetchRatings();
+  }, [movie]);
 
 
   const handleSubmitComment = async (e) => {
@@ -120,8 +120,8 @@ const WatchMovie = () => {
           content: comment,
           createdAt: new Date().toISOString()
         };
-        await axios.post(`http://localhost:9999/comments`, newComment);
-        setComments(pre => [newComment, ...pre]);
+        const res = await axios.post(`http://localhost:9999/comments`, newComment);
+        setComments(pre => [res.data, ...pre]);
 
       }
 
@@ -152,12 +152,14 @@ const WatchMovie = () => {
   };
 
 
-  const filterComments = comments.filter(cmt => cmt.movieId===movie._id)
 
   const filteredEpisodes = episodes.filter((_, idx) => {
     const index = idx + 1;
     return index >= selectedRange[0] && index <= selectedRange[1];
   });
+
+  const filterComments = comments.filter(cmt => cmt.movieId === movie._id)
+
 
   const getUserById = (id) => users.find(u => u.id === id);
 
@@ -321,14 +323,14 @@ const WatchMovie = () => {
           {comments.length === 0 ? (
             <p>Chưa có bình luận nào.</p>
           ) : (
-            comments.filter(cmt => cmt.movieId===movie._id).map(cmt => {
+            comments.filter(cmt => cmt.movieId === movie._id).map(cmt => {
               const u = getUserById(cmt.userId);
               return (
                 <div key={cmt.id} className='d-flex gap-3 mb-4'>
                   <img src={u?.img || '/images/macdinh.png'} alt='avatar' className='rounded-circle' width={40} height={40} />
                   <div className='flex-grow-1'>
                     <div className='d-flex justify-content-between'>
-                      <h5 className='text-bold'> {u.fullname}</h5>
+                      <h5 className='text-bold'> {u?.fullname}</h5>
                       <small style={{ color: 'white' }}>{dayjs(cmt.createdAt).format('HH:mm DD/MM/YYYY')}</small>
                     </div>
                     <div>{cmt.content}</div>
@@ -465,7 +467,7 @@ const WatchMovie = () => {
       }
 
 
-     <MovieSuggestions movie={movie} />
+      <MovieSuggestions movie={movie} />
 
 
 
